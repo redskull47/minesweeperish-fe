@@ -1,0 +1,14 @@
+.customBadge {
+	position: relative;
+	display: inline-block;
+	
+	&.customBadge--noAction {
+		.badge {
+			cursor: default;
+		}
+	}
+
+	.badge {
+		cursor: pointer;
+	}
+}

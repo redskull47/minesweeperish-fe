@@ -1,0 +1,32 @@
+.mineBoard__mapTile {
+  font-size: 10px;
+  text-align: center;
+  padding-top: 5px;
+  height: 25px;
+  width: 25px;
+  background-color: #aaa;
+  box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.7), inset -2px -2px 1px rgba(255, 255, 255, 0.8);
+  border: 1px solid #888;
+
+  &.revealed {
+    box-shadow: none;
+    border: none;
+    background-color: inherit;
+  }
+
+  &.flag {
+    color: red;
+  }
+
+  &.unknown {
+    color: orange;
+  }
+
+  &.mine { 
+    color: black;
+  }
+
+  &.destroyed {
+    background-color: #d55;
+  }
+}
