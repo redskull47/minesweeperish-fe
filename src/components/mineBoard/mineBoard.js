@@ -13,6 +13,7 @@ class MineBoard extends Component {
   }
 
   getMinefieldWidth = () => {
+    console.log('TEST ME:', this.props.minefield, this.props.minefield.height, this.props.minefield.width);
     return { 
       width: this.props.minefield.width * (TILE_SIZE + TILE_GAP),
       height: this.props.minefield.height * (TILE_SIZE + TILE_GAP)

@@ -1,84 +1,134 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'redux-react-hook';
+import { Collapse, Button, Container, Row, Col } from 'react-bootstrap';
+import { setBoardConfig } from 'actions/mineBoardActions';
 
-import { setBoardConfig } from '../../actions/mineBoardActions';
-import { BOARD_SETTINGS_PARAMS } from '../../common/constants';
+export default function BoardConfigPanel() {
+  const [boardWidth, setWidth] = useState(undefined);
+  const [boardHeight, setHeight] = useState(undefined);
+  const [amountOfMines, setAmountOfMines] = useState(undefined);
+  const [isConfigVisible, setConfigVisibility] = useState(true);
 
-class BoardConfigPanel extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          [BOARD_SETTINGS_PARAMS.WIDTH]: undefined,
-          [BOARD_SETTINGS_PARAMS.HEIGHT]: undefined,
-          [BOARD_SETTINGS_PARAMS.AMOUNT_OF_MINES]: undefined
-        }
+  const dispatch = useDispatch();
+
+  function setBoardSettings(e) {
+    e.preventDefault();
+    dispatch(setBoardConfig({ height: boardHeight, width: boardWidth, amountOfMines }));
+  };
+
+  function handleChange(e) {
+    switch (e.target.name) {
+      case 'boardHeight': {
+        setHeight(e.target.value);
+        break;
+      }
+
+      case 'boardWidth': {
+        setWidth(e.target.value);
+        break;
+      }
+
+      case 'amountOfMines': {
+        setAmountOfMines(e.target.value);
+        break;
+      }
+
+      default: return;
     }
+  }
 
-    setBoardSettings = (e) => {
-      e.preventDefault();
-      this.props.setBoardConfig(this.state);
-    };
+  function isMinefieldSizeDefined() {
+    return boardWidth && boardHeight;
+  }
 
-    handleChange = (e) => {
-      this.setState({
-          [e.target.name]: e.target.value
-      });
-    }
+  function maximumMines() {
+    return isMinefieldSizeDefined() ? Math.round((boardWidth * boardHeight) / 3) : 0;
+  }
 
-    isMinefieldSizeDefined = () => {
-        return this.state[BOARD_SETTINGS_PARAMS.WIDTH] && this.state[BOARD_SETTINGS_PARAMS.HEIGHT];
-    }
-    
-    maximumMines = () => {
-        return this.isMinefieldSizeDefined() ? Math.round((this.state[BOARD_SETTINGS_PARAMS.WIDTH] * this.state[BOARD_SETTINGS_PARAMS.HEIGHT]) / 3) : 0;
-    }
+  function toggleConfigVisibility() {
+    setConfigVisibility(!isConfigVisible);
+  }
 
-    render() {
-        return (
-          <form onSubmit={this.setBoardSettings} className="mb-3">
-            <div className="form-group">
-                <p>Enter desirable minefield size.</p>
-                <hr />
+  return (
+    <div>
+      <Container>
+        <Row>
+          <Col>
+            <Button
+              variant="outline-secondary"
+              onClick={toggleConfigVisibility}
+              aria-expanded={isConfigVisible}
+            >
+              {isConfigVisible ? 'Hide config' : 'Show config'}
+            </Button>
+          </Col>
+        </Row>
+      </Container>
 
-                <label>Width:</label>
-                <input
+      <hr />
+      
+      <Collapse in={isConfigVisible}>
+        <Container>
+          <Row>
+            <Col>
+              <form onSubmit={setBoardSettings} className="p-3 mb-3 jumbotron border">
+                <h5>Mineboard settings:</h5>
+                <div className="form-group">
+                  <p>Enter desirable minefield size.</p>
+                  <hr />
+
+                  <label>Width:</label>
+                  <input
                     className="form-control"
-                    name={BOARD_SETTINGS_PARAMS.WIDTH}
+                    name={'boardWidth'}
                     type="text"
-                    onChange={this.handleChange} />
-            </div>
+                    onChange={handleChange} />
+                </div>
 
-            <div className="form-group">
-                <label>Height:</label>
-                <input
+                <div className="form-group">
+                  <label>Height:</label>
+                  <input
                     className="form-control"
-                    name={BOARD_SETTINGS_PARAMS.HEIGHT}
+                    name={'boardHeight'}
                     type="text"
-                    onChange={this.handleChange} />
-            </div>
+                    onChange={handleChange} />
+                </div>
 
-            <div className="form-group">
-                <label>Amount of mines:</label>
-                <input
+                <div className="form-group">
+                  <label>Amount of mines:</label>
+                  <input
                     className="form-control"
-                    name={BOARD_SETTINGS_PARAMS.AMOUNT_OF_MINES}
+                    name={'amountOfMines'}
                     type="number"
-                    max={this.maximumMines()}
-                    disabled={!this.isMinefieldSizeDefined()}
-                onChange={this.handleChange} />
-            </div>
-            <hr />
-            <input className="btn btn-primary" type="submit" value="Set Minefield"/>
-          </form>
-        );
-    }
+                    required
+                    min={1}
+                    max={maximumMines()}
+                    disabled={!isMinefieldSizeDefined()}
+                    onChange={handleChange} />
+                </div>
+                <hr />
+                <Button
+                  variant="outline-primary"
+                  as="input"
+                  type="submit"
+                  value="Set Minefield" />
+              </form>
+            </Col>
+            <Col>
+              <div className="p-3 jumbotron border">
+                <h5>
+                  Instructions:
+                </h5>
+                <ul>
+                  <li className="mb-3">Primary click (LMB) on tiles to start your game and reveal more.</li>
+                  <li className="mb-3">Secondary click (RMB) on tile to tag it as potential tile with mine.</li>
+                  <li className="mb-3">Use Ctrl + secondary click (RMB) if you're uncertain and you'd like to go back to it later.</li>
+                </ul>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </Collapse>
+    </div>
+  );
 }
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({
-        setBoardConfig
-    }, dispatch)
-}
-
-export default connect(null, mapDispatchToProps)(BoardConfigPanel);

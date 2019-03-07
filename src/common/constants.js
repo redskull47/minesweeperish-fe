@@ -15,12 +15,6 @@ const ActionTypes = keyMirror({
   EXPLODE_MAP: null,
 });
 
-const BOARD_SETTINGS_PARAMS = {
-  WIDTH: 'width',
-  HEIGHT: 'height',
-  AMOUNT_OF_MINES: 'amountOfMines'
-};
-
 const TILE_FLAGS = {
   MARKED_MINE: 'MARKED_MINE',
   MARKED_UNKNOWN: 'MARKED_UNKNOWN'
@@ -29,4 +23,4 @@ const TILE_FLAGS = {
 const TILE_SIZE = 25;
 const TILE_GAP = 2;
 
-export { ActionTypes, BOARD_SETTINGS_PARAMS, TILE_FLAGS, TILE_SIZE, TILE_GAP };
+export { ActionTypes, TILE_FLAGS, TILE_SIZE, TILE_GAP };

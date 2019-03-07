@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 const defaultState = {
   width: 0,
-  height: 0,
+  borderHeight: 0,
   amountOfMines: 0,
   map: undefined,
   isMapFilledWithMines: false,
