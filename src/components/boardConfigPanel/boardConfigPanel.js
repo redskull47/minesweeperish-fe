@@ -1,48 +1,43 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'redux-react-hook';
 import { Collapse, Button, Container, Row, Col } from 'react-bootstrap';
-import { setBoardConfig } from 'actions/mineBoardActions';
+import { setBoardConfig as setBoardConfigAction } from 'actions/mineBoardActions';
+
+const defaultState = {
+  boardWidth: undefined,
+  boardHeight: undefined,
+  amountOfMines: undefined
+};
 
 export default function BoardConfigPanel() {
-  const [boardWidth, setWidth] = useState(undefined);
-  const [boardHeight, setHeight] = useState(undefined);
-  const [amountOfMines, setAmountOfMines] = useState(undefined);
+  const [boardConfig, setBoardConfig] = useState(defaultState);
+  
   const [isConfigVisible, setConfigVisibility] = useState(true);
 
   const dispatch = useDispatch();
 
   function setBoardSettings(e) {
     e.preventDefault();
-    dispatch(setBoardConfig({ height: boardHeight, width: boardWidth, amountOfMines }));
+    dispatch(setBoardConfigAction({ height: boardConfig.boardHeight, width: boardConfig.boardWidth, amountOfMines: boardConfig.amountOfMines }));
   };
 
   function handleChange(e) {
-    switch (e.target.name) {
-      case 'boardHeight': {
-        setHeight(e.target.value);
-        break;
-      }
+    e.persist();
 
-      case 'boardWidth': {
-        setWidth(e.target.value);
-        break;
-      }
-
-      case 'amountOfMines': {
-        setAmountOfMines(e.target.value);
-        break;
-      }
-
-      default: return;
-    }
+    setBoardConfig((state) => {
+      return ({
+        ...state,
+        [e.target.name]: e.target.value
+      });
+    });
   }
 
   function isMinefieldSizeDefined() {
-    return boardWidth && boardHeight;
+    return boardConfig.boardWidth && boardConfig.boardHeight;
   }
 
   function maximumMines() {
-    return isMinefieldSizeDefined() ? Math.round((boardWidth * boardHeight) / 3) : 0;
+    return isMinefieldSizeDefined() ? Math.round((boardConfig.boardWidth * boardConfig.boardHeight) / 3) : 0;
   }
 
   function toggleConfigVisibility() {
