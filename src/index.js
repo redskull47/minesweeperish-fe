@@ -11,7 +11,7 @@ import rootSaga from './sagas/sagas';
 
 import {BASE_PATH} from './config/global';
 
-import App from './App';
+import MinesweeperView from './views/minesweeperView';
 import registerServiceWorker from './registerServiceWorker';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -29,7 +29,7 @@ ReactDOM.render(
   <BrowserRouter basename={BASE_PATH}>
   <Provider store={store}>
     <StoreContext.Provider value={store}>
-      <Route component={App} />
+      <Route component={MinesweeperView} />
     </StoreContext.Provider>
   </Provider>
   </BrowserRouter>, document.getElementById('root'));

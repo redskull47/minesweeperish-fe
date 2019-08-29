@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'redux-react-hook';
-import { Collapse, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, FormControl, FormLabel, Collapse, Button, Container, Row, Col } from 'react-bootstrap';
 import { setBoardConfig as setBoardConfigAction } from 'actions/mineBoardActions';
 
 const defaultState = {
@@ -21,7 +21,7 @@ export default function BoardConfigPanel() {
     dispatch(setBoardConfigAction({ height: boardConfig.boardHeight, width: boardConfig.boardWidth, amountOfMines: boardConfig.amountOfMines }));
   };
 
-  function handleChange(e) {
+  const handleChange = useCallback((e) => {
     e.persist();
 
     setBoardConfig((state) => {
@@ -30,7 +30,7 @@ export default function BoardConfigPanel() {
         [e.target.name]: e.target.value
       });
     });
-  }
+  }, []);
 
   function isMinefieldSizeDefined() {
     return boardConfig.boardWidth && boardConfig.boardHeight;
@@ -66,32 +66,32 @@ export default function BoardConfigPanel() {
         <Container>
           <Row>
             <Col>
-              <form onSubmit={setBoardSettings} className="p-3 mb-3 jumbotron border">
+              <Form onSubmit={setBoardSettings} className="p-3 mb-3 jumbotron border">
                 <h5>Mineboard settings:</h5>
-                <div className="form-group">
+                <Form.Group>
                   <p>Enter desirable minefield size.</p>
                   <hr />
 
-                  <label>Width:</label>
-                  <input
+                  <FormLabel>Width:</FormLabel>
+                  <FormControl
                     className="form-control"
                     name={'boardWidth'}
                     type="text"
                     onChange={handleChange} />
-                </div>
+                </Form.Group>
 
-                <div className="form-group">
-                  <label>Height:</label>
-                  <input
+                <Form.Group>
+                  <FormLabel>Height:</FormLabel>
+                  <FormControl
                     className="form-control"
                     name={'boardHeight'}
                     type="text"
                     onChange={handleChange} />
-                </div>
+                </Form.Group>
 
-                <div className="form-group">
-                  <label>Amount of mines:</label>
-                  <input
+                <Form.Group>
+                  <FormLabel>Amount of mines:</FormLabel>
+                  <FormControl
                     className="form-control"
                     name={'amountOfMines'}
                     type="number"
@@ -100,14 +100,14 @@ export default function BoardConfigPanel() {
                     max={maximumMines()}
                     disabled={!isMinefieldSizeDefined()}
                     onChange={handleChange} />
-                </div>
+                </Form.Group>
                 <hr />
                 <Button
                   variant="outline-primary"
-                  as="input"
-                  type="submit"
-                  value="Set Minefield" />
-              </form>
+                  onClick={setBoardSettings}>
+                  Set Minefield
+                </Button>
+              </Form>
             </Col>
             <Col>
               <div className="p-3 jumbotron border">
