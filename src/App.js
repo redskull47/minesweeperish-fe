@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import NavBar from './components/navBar';
+import NavBar from './components/navigation/navBar';
 import MinesweeperView from './views/minesweeperView';
 
 import logo from './logo.svg';

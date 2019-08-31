@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { TILE_SIZE, TILE_GAP } from '../../common/constants';
+import { TILE_SIZE, TILE_GAP } from 'common/constants';
 import MapTile from '../mapTile/mapTile';
 import './mineBoard.scss';
 

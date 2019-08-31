@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'redux-react-hook';
 import { Form, FormControl, FormLabel, Collapse, Button, Container, Row, Col } from 'react-bootstrap';
-import { setBoardConfig as setBoardConfigAction } from 'actions/mineBoardActions';
+import { setBoardConfig as setBoardConfigAction } from '../../redux/actions/mineBoardActions';
 
 const defaultState = {
   boardWidth: undefined,

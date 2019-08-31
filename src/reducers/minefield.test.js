@@ -5,7 +5,7 @@ import {
   revealTile
   } from '../actions/mineBoardActions';
 import minefield from './minefield';
-import { markMine, markAlternative } from '../actions/mapTileActions';
+import { markMine, markAlternative } from '../views/minesweeperView/components/mapTile/redux/actions/mapTileActions';
 import { TILE_FLAGS } from '../common/constants';
 
 describe('Minefield reducer', () => {

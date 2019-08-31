@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 
-import minefield from './minefield';
+import minefield from '../../../../reducers/minefield';
 
 export default combineReducers({
   minefield

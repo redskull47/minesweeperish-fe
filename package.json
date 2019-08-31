@@ -5,141 +5,98 @@
   "dependencies": {
     "@babel/core": "7.3.4",
     "@svgr/webpack": "4.1.0",
-    "autoprefixer": "9.4.10",
-    "babel-core": "6.26.3",
+    "@types/query-string": "^6.3.0",
+    "@types/react-resize-detector": "^4.0.1",
+    "axios": "^0.18.0",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.1",
     "babel-jest": "24.1.0",
     "babel-loader": "8.0.5",
-    "babel-plugin-named-asset-import": "^0.3.3",
+    "babel-plugin-named-asset-import": "^0.3.2",
     "babel-preset-react-app": "^7.0.2",
-    "babel-runtime": "6.26.0",
+    "bfj": "6.1.1",
     "bootstrap": "^4.3.1",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
-    "chalk": "2.4.2",
-    "css-loader": "^3.2.0",
+    "connect-api-mocker": "^1.5.0",
+    "cross-env": "^5.2.0",
+    "css-loader": "2.1.0",
     "dotenv": "6.2.0",
     "dotenv-expand": "4.2.0",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
-    "eslint": "5.15.1",
+    "enzyme": "^3.9.0",
+    "eslint": "5.14.1",
     "eslint-config-react-app": "^3.0.8",
     "eslint-loader": "2.1.2",
     "eslint-plugin-flowtype": "3.4.2",
     "eslint-plugin-import": "2.16.0",
     "eslint-plugin-jsx-a11y": "6.2.1",
     "eslint-plugin-react": "7.12.4",
-    "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "3.0.1",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.1",
-    "git-revision-webpack-plugin": "^3.0.3",
     "html-webpack-plugin": "4.0.0-alpha.2",
+    "identity-obj-proxy": "3.0.0",
     "jest": "24.1.0",
-    "jest-enzyme": "^7.1.0",
+    "jest-enzyme": "^7.0.2",
+    "jest-pnp-resolver": "1.2.0",
+    "jest-resolve": "24.1.0",
+    "jest-watch-typeahead": "^0.2.1",
     "keymirror": "^0.1.1",
-    "lodash": "^4.17.15",
-    "mini-css-extract-plugin": "^0.5.0",
-    "moment": "^2.20.1",
-    "node-sass": "^4.12.0",
-    "object-assign": "4.1.1",
-    "optimize-css-assets-webpack-plugin": "^5.0.3",
-    "pnp-webpack-plugin": "^1.5.0",
+    "lodash": "^4.17.11",
+    "mini-css-extract-plugin": "0.5.0",
+    "moment": "^2.24.0",
+    "optimize-css-assets-webpack-plugin": "5.0.1",
+    "pnp-webpack-plugin": "1.3.1",
     "postcss-flexbugs-fixes": "4.1.0",
     "postcss-loader": "3.0.0",
     "postcss-preset-env": "6.6.0",
     "postcss-safe-parser": "4.0.1",
-    "promise": "8.0.2",
-    "raf": "3.4.1",
-    "react": "^16.9.0",
+    "query-string": "^6.8.1",
+    "react": "^16.8.6",
     "react-app-polyfill": "^0.2.2",
-    "react-bootstrap": "^1.0.0-beta.12",
+    "react-bootstrap": "^1.0.0-beta.8",
     "react-dev-utils": "^7.0.5",
-    "react-dom": "^16.9.0",
+    "react-dom": "^16.8.6",
     "react-redux": "^6.0.1",
-    "react-router-dom": "^4.2.2",
-    "redux": "^4.0.4",
-    "redux-devtools-extension": "^2.13.2",
-    "redux-react-hook": "^3.3.2",
-    "redux-saga": "^1.0.5",
+    "react-resize-detector": "^4.2.0",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-react-hook": "^3.3.1",
+    "redux-saga": "^1.0.1",
+    "resolve": "1.10.0",
     "sass-loader": "7.1.0",
-    "style-loader": "^0.23.1",
-    "sw-precache-webpack-plugin": "0.11.5",
+    "style-loader": "0.23.1",
     "terser-webpack-plugin": "1.2.3",
+    "typescript": "3.3.3333",
     "url-loader": "1.1.2",
     "webpack": "4.29.6",
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.0.4",
-    "whatwg-fetch": "3.0.0",
     "workbox-webpack-plugin": "4.0.0"
   },
+  "devDependencies": {
+    "@types/jest": "24.0.9",
+    "@types/keymirror": "^0.1.1",
+    "@types/lodash": "^4.14.123",
+    "@types/node": "11.9.6",
+    "@types/react": "^16.8.14",
+    "@types/react-dom": "16.8.2",
+    "@types/react-redux": "^7.0.8",
+    "@types/react-router-dom": "^4.3.2",
+    "@types/redux": "^3.6.0",
+    "@types/redux-saga": "^0.10.5",
+    "git-revision-webpack-plugin": "^3.0.3",
+    "node-sass": "^4.9.0",
+    "tslint": "^5.16.0",
+    "tslint-config-airbnb": "^5.11.1"
+  },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom",
-    "test-coverage": "node scripts/test.js --env=jsdom --coverage"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,mjs}"
-    ],
-    "coverageReporters": [
-      "html",
-      "text-summary"
-    ],
-    "resolver": "jest-pnp-resolver",
-    "setupFiles": [
-      "react-app-polyfill/jsdom",
-      "<rootDir>/config/polyfills.js"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js",
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
-      "<rootDir>/tests/**/__tests__/**/*.{js,jsx,mjs}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}",
-      "<rootDir>/tests/**/?(*.)(spec|test).{js,jsx,mjs}"
-    ],
-    "testEnvironment": "jsdom",
-    "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$",
-      "^.+\\.module\\.(css|sass|scss)$"
-    ],
-    "moduleNameMapper": {
-      "^api/(.*)": "<rootDir>/src/api/$1",
-      "^common/(.*)": "<rootDir>/src/common/$1",
-      "^components/(.*)": "<rootDir>/src/components/$1",
-      "^actions/(.*)": "<rootDir>/src/actions/$1",
-      "^views/(.*)": "<rootDir>/src/views/$1",
-      "^reducers/(.*)": "<rootDir>/src/reducers/$1",
-      "^sagas/(.*)": "<rootDir>/src/sagas/$1",
-      "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "mjs",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
+    "start": "npm run get-version && npm run add-name node scripts/start.js",
+    "build": "npm run add-version node scripts/build.js",
+    "test": "CI=true npm run add-version node scripts/test.js --env=jsdom",
+    "test-coverage": "CI=true npm run add-version node scripts/test.js --env=jsdom --coverage",
+    "add-name": "cross-env REACT_APP_NAME=$npm_package_name",
+    "get-version": "bash ./get-version.sh"
   },
   "eslintConfig": {
     "env": {
@@ -148,10 +105,15 @@
     "extends": "react-app",
     "globals": {
       "BRANCH": false,
-      "IFE": false,
       "VERSION": false
     },
     "root": true,
     "rules": {}
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

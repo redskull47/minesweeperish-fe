@@ -1,4 +1,4 @@
-import { ActionTypes } from "../common/constants";
+import { ActionTypes } from "common/constants";
 
 export const checkTile = (coordX, coordY) => {
   return {

@@ -1,0 +1,63 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "alwaysStrict": true,
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin",
+        "alwaysShowRuleFailuresAsWarnings": false,
+        "ignoreDefinitionFiles": true,
+        "configFile": "tslint.json",
+        "suppressWhileTypeErrorsPresent": false,
+        "mockTypeScriptVersion": false
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "node_modules/*": [
+        "node_modules/*",
+      ],
+      "services/*": [
+        "src/services/*"
+      ],
+      "config/*": [
+        "src/config/*"
+      ],
+      "components/*": [
+        "src/components/*"
+      ],
+      "common/*": [
+        "src/common/*"
+      ],
+      "views/*": [
+        "src/views/*"
+      ],
+      "request": [
+        "src/services/api/apiRequest"
+      ],
+      "makeAction": [
+        "src/services/common/redux/actions/makeAction"
+      ]
+    }
+  },
+  "include": [
+    "src"
+  ]
+}

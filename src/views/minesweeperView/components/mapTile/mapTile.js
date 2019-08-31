@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { markMine, markAlternative, checkTile } from '../../actions/mapTileActions';
-import { TILE_FLAGS } from '../../common/constants';
+import { markMine, markAlternative, checkTile } from './redux/actions/mapTileActions';
+import { TILE_FLAGS } from 'common/constants';
 import './mapTile.scss';
 
 class MapTile extends Component {

@@ -1,7 +1,7 @@
 import { takeLatest, put, select } from 'redux-saga/effects';
 import _ from 'lodash';
 
-import { ActionTypes } from '../common/constants';
+import { ActionTypes } from 'common/constants';
 import {
     saveMap,
     saveMapWithMines,
