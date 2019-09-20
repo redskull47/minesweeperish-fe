@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import {
-  setBoardConfig,
+  setFieldConfig,
   saveMap,
   revealTile
-  } from '../actions/mineBoardActions';
+  } from 'views/minesweeperView/redux/actions/minefieldActions';
 import minefield from './minefield';
-import { markMine, markAlternative } from '../views/minesweeperView/components/mapTile/redux/actions/mapTileActions';
-import { TILE_FLAGS } from '../common/constants';
+import { markMine, markAlternative } from '../../components/mapTile/redux/actions/mapTileActions';
+import { TILE_FLAGS } from '../../../../common/constants';
 
 describe('Minefield reducer', () => {
   const initialState = {};
@@ -25,13 +25,13 @@ describe('Minefield reducer', () => {
     state = _.cloneDeep(initialState);
   });
 
-  it('should set board config to the state, 5x5 + 10', () => {
+  it('should set minefield config to the state, 5x5 + 10', () => {
     const params = {
       width: 5,
       height: 5,
       amountOfMines: 10
     }
-    state = minefield(state, setBoardConfig(params));
+    state = minefield(state, setFieldConfig(params));
     expect(state.width).toBeDefined();
     expect(state.height).toBeDefined();
     expect(state.amountOfMines).toBeDefined();

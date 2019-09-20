@@ -14,7 +14,7 @@
         120
       ]
     },
-    "no-unsafe-any": true,
+    "no-unsafe-any": false,
     "only-arrow-functions": [
       false,
       "allow-declarations",

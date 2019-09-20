@@ -4,7 +4,7 @@ const ActionTypes = keyMirror({
   CHECK_TILE: null,
   MARK_MINE: null,
   MARK_ALTERNATIVE: null,
-  SET_BOARD_CONFIG: null,
+  SET_FIELD_CONFIG: null,
   SAVE_MAP: null,
   SAVE_MAP_WITH_MINES: null,
   REVEAL_TILE: null,
@@ -17,7 +17,7 @@ const ActionTypes = keyMirror({
 
 const TILE_FLAGS = {
   MARKED_MINE: 'MARKED_MINE',
-  MARKED_UNKNOWN: 'MARKED_UNKNOWN'
+  MARKED_UNKNOWN: 'MARKED_UNKNOWN',
 };
 
 const TILE_SIZE = 25;

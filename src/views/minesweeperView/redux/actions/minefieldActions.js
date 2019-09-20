@@ -1,8 +1,8 @@
 import { ActionTypes } from 'common/constants';
 
-export const setBoardConfig = ({width, height, amountOfMines}) => {
+export const setFieldConfig = ({width, height, amountOfMines}) => {
   return {
-    type: ActionTypes.SET_BOARD_CONFIG,
+    type: ActionTypes.SET_FIELD_CONFIG,
     payload: { width, height, amountOfMines }
   }
 }

@@ -1,9 +1,32 @@
-import {ActionTypes, TILE_FLAGS} from '../common/constants';
+import { ActionTypes, TILE_FLAGS } from '../../../../common/constants';
 import _ from 'lodash';
 
-const defaultState = {
+interface ITile {
+  coordX: Number;
+  coordY: Number;
+  isRevealed: boolean;
+  flag: 'MARKED_MINE' | 'MARKED_UNKNOWN';
+  mine: boolean;
+  amountOfMinesInRange: number;
+}
+
+type IMinefieldColumn = Array<ITile>;
+
+export type IMap = Array<IMinefieldColumn>;
+
+export interface IMinefield {
+  width: Number;
+  height: Number;
+  amountOfMines: Number;
+  map?: IMap;
+  isMapFilledWithMines: boolean;
+  isMapDestroyed: boolean;
+  revealQueue: Array<ITile>;
+}
+
+const defaultState: IMinefield = {
   width: 0,
-  borderHeight: 0,
+  height: 0,
   amountOfMines: 0,
   map: undefined,
   isMapFilledWithMines: false,
@@ -11,10 +34,10 @@ const defaultState = {
   revealQueue: [],
 };
 
-export default function minefield(state = defaultState, action) {
+export default function minefield(state = defaultState, action: any) {
   const newState = _.cloneDeep(state);
 
-  function setFlag(flag, actionPayload) {
+  function setFlag(flag: any, actionPayload: any) {
     const {coordX, coordY} = actionPayload;
     const tile = _.get(newState, `map[${coordY}][${coordX}]`);
     let flagToSet = '';
@@ -25,14 +48,14 @@ export default function minefield(state = defaultState, action) {
   }
 
   switch(action.type) {
-    case ActionTypes.SET_BOARD_CONFIG: {
-      const {height, width} = action.payload;
+    case ActionTypes.SET_FIELD_CONFIG: {
+      const { height, width } = action.payload;
       return {
         ...newState,
         ...defaultState,
         width,
         height,
-        amountOfMines: action.payload.amountOfMines
+        amountOfMines: action.payload.amountOfMines,
       }
     }
 
@@ -47,7 +70,7 @@ export default function minefield(state = defaultState, action) {
       return {
         ...newState,
         map: action.payload.map,
-        isMapFilledWithMines: true
+        isMapFilledWithMines: true,
       }
     }
 
@@ -55,25 +78,28 @@ export default function minefield(state = defaultState, action) {
       const { coordX, coordY } = action.payload;
       _.update(newState, `map[${coordY}][${coordX}]`, tile => _.set(tile, 'isRevealed', true));
       return {
-        ...newState
-      }
+        ...newState,
+      };
     }
 
     case ActionTypes.QUEUE_TILES_TO_REVEAL: {
       return {
         ...newState,
-        revealQueue: action.payload
-      }
+        revealQueue: action.payload,
+      };
     }
 
     case ActionTypes.REVEAL_TILES_IN_QUEUE: {
       _.forEach(newState.revealQueue, tileInQueue => {
-        _.update(newState, `map[${tileInQueue.coordY}][${tileInQueue.coordX}]`, tile => _.set(tile, 'isRevealed', true));
+        _.update(newState,
+          `map[${tileInQueue.coordY}][${tileInQueue.coordX}]`,
+          tile => _.set(tile, 'isRevealed', true)
+          );
       });
       return {
         ...newState,
-        revealQueue: []
-      }
+        revealQueue: [],
+      };
     }
 
     case ActionTypes.EXPLODE_MAP: {
@@ -81,25 +107,25 @@ export default function minefield(state = defaultState, action) {
       _.update(newState, `map[${coordY}][${coordX}]`, tile => _.set(tile, 'exploded', true));
       _.set(newState, 'isMapDestroyed', true);
       return {
-        ...newState
+        ...newState,
       }
     }
 
     case ActionTypes.MARK_MINE: {
       setFlag(TILE_FLAGS.MARKED_MINE, action.payload);
       return {
-        ...newState
+        ...newState,
       }
     }
 
     case ActionTypes.MARK_ALTERNATIVE: {
       setFlag(TILE_FLAGS.MARKED_UNKNOWN, action.payload);
       return {
-        ...newState
+        ...newState,
       }
     }
-      
+
     default:
-      return {...newState};
+      return state;
   }
 }

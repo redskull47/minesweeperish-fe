@@ -9,7 +9,7 @@ import {
     revealTilesInQueue,
     explodeMap,
     queueTilesToReveal
-  } from '../actions/mineBoardActions';
+  } from '../actions/minefieldActions';
 
 
 const getMapFromState = state => state.minefield.map;
@@ -187,7 +187,7 @@ function* revealTile(action) {
 }
 
 export function* watchMinefield() {
-  yield takeLatest(ActionTypes.SET_BOARD_CONFIG, getMap);
+  yield takeLatest(ActionTypes.SET_FIELD_CONFIG, getMap);
   yield takeLatest(ActionTypes.CHECK_TILE, checkTile);
   yield takeLatest(ActionTypes.REVEAL_TILE, revealTile);
 }

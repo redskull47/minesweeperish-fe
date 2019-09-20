@@ -1,30 +1,39 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useDispatch } from 'redux-react-hook';
 import { Form, FormControl, FormLabel, Collapse, Button, Container, Row, Col } from 'react-bootstrap';
-import { setBoardConfig as setBoardConfigAction } from '../../redux/actions/mineBoardActions';
+import { setFieldConfig as setFieldConfigAction } from '../../redux/actions/minefieldActions';
 
 const defaultState = {
-  boardWidth: undefined,
-  boardHeight: undefined,
+  boardWidth: 0,
+  boardHeight: 0,
   amountOfMines: undefined
 };
 
-export default function BoardConfigPanel() {
-  const [boardConfig, setBoardConfig] = useState(defaultState);
-  
+interface IConfigPanelState {
+  boardWidth: number;
+  boardHeight: number;
+  amountOfMines?: number;
+}
+
+export default function FieldConfigPanel() {
+  const [fieldConfig, setFieldConfig] = useState(defaultState as IConfigPanelState);
   const [isConfigVisible, setConfigVisibility] = useState(true);
 
   const dispatch = useDispatch();
 
-  function setBoardSettings(e) {
+  function setBoardSettings(e: React.MouseEvent) {
     e.preventDefault();
-    dispatch(setBoardConfigAction({ height: boardConfig.boardHeight, width: boardConfig.boardWidth, amountOfMines: boardConfig.amountOfMines }));
-  };
+    dispatch(setFieldConfigAction({
+      height: fieldConfig.boardHeight,
+      width: fieldConfig.boardWidth,
+      amountOfMines: fieldConfig.amountOfMines
+    }));
+  }
 
   const handleChange = useCallback((e) => {
     e.persist();
 
-    setBoardConfig((state) => {
+    setFieldConfig((state) => {
       return ({
         ...state,
         [e.target.name]: e.target.value
@@ -33,19 +42,35 @@ export default function BoardConfigPanel() {
   }, []);
 
   function isMinefieldSizeDefined() {
-    return boardConfig.boardWidth && boardConfig.boardHeight;
+    return fieldConfig.boardWidth && fieldConfig.boardHeight;
   }
 
-  function maximumMines() {
-    return isMinefieldSizeDefined() ? Math.round((boardConfig.boardWidth * boardConfig.boardHeight) / 3) : 0;
-  }
+  const getMaxiumAmountOfMines = useMemo(() => {
+    const { boardHeight, boardWidth } = fieldConfig;
+    return isMinefieldSizeDefined() ? Math.round((boardWidth * boardHeight) / 3) : 0;
+  }, [fieldConfig.boardHeight, fieldConfig.boardWidth]);
 
   function toggleConfigVisibility() {
     setConfigVisibility(!isConfigVisible);
   }
 
+  function getValidationMessage(fieldName: string) {
+    console.log('getValidationMessage', fieldName);
+    
+    switch (fieldName) {
+      case 'amountOfMines': {
+        if (!fieldConfig.amountOfMines) return;
+        if (getMaxiumAmountOfMines <= fieldConfig.amountOfMines) {
+          return `Number of mines can be ${getMaxiumAmountOfMines} maximum.`;
+        }
+      }
+
+      default: return;
+    }
+  }
+
   return (
-    <div>
+    <>
       <Container>
         <Row>
           <Col>
@@ -66,7 +91,7 @@ export default function BoardConfigPanel() {
         <Container>
           <Row>
             <Col>
-              <Form onSubmit={setBoardSettings} className="p-3 mb-3 jumbotron border">
+              <Form className="p-3 mb-3 jumbotron border">
                 <h5>Mineboard settings:</h5>
                 <Form.Group>
                   <p>Enter desirable minefield size.</p>
@@ -97,9 +122,11 @@ export default function BoardConfigPanel() {
                     type="number"
                     required
                     min={1}
-                    max={maximumMines()}
+                    max={getMaxiumAmountOfMines}
+                    isInvalid={(!!fieldConfig.amountOfMines && (getMaxiumAmountOfMines < fieldConfig.amountOfMines))}
                     disabled={!isMinefieldSizeDefined()}
                     onChange={handleChange} />
+                  <Form.Control.Feedback type="invalid">{getValidationMessage('amountOfMines')}</Form.Control.Feedback>
                 </Form.Group>
                 <hr />
                 <Button
@@ -124,6 +151,6 @@ export default function BoardConfigPanel() {
           </Row>
         </Container>
       </Collapse>
-    </div>
+    </>
   );
 }

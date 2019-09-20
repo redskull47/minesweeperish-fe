@@ -8,7 +8,7 @@ export default function NavBar(props) {
             <div className="navbar" id="navbarNav">
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <Link to="/minesweeper" className="nav-link">Minesweeper board</Link>
+                        <Link to="/minesweeper" className="nav-link">Minesweeper field</Link>
                     </li>
                 </ul>
             </div>

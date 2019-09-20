@@ -39,7 +39,7 @@ class MapTile extends Component {
     };
 
     getTileCSSClass = () => {
-        const classes = ['mineBoard__mapTile'];
+        const classes = ['minefield__mapTile'];
         if (this.props.isRevealed) {
             classes.push('revealed')
         }
