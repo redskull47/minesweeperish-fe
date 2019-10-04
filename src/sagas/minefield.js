@@ -3,13 +3,13 @@ import _ from 'lodash';
 
 import { ActionTypes } from '../common/constants';
 import {
-    saveMap,
-    saveMapWithMines,
-    revealTile as revealTileAction,
-    revealTilesInQueue,
-    explodeMap,
-    queueTilesToReveal
-  } from '../actions/mineBoardActions';
+  saveMap,
+  saveMapWithMines,
+  revealTile as revealTileAction,
+  revealTilesInQueue,
+  explodeMap,
+  queueTilesToReveal
+} from '../actions/mineBoardActions';
 
 
 const getMapFromState = state => state.minefield.map;
@@ -21,27 +21,55 @@ const getMapSettings = state => ({
 });
 
 function getRandomCoordinate(maxValue) {
-  return (Math.random() * (maxValue + 1) ) << 0
+  return (Math.random() * (maxValue + 1)) << 0
 }
 
 function getRandomCoordinates(maxX, maxY) {
-  return {coordX: getRandomCoordinate(maxX), coordY: getRandomCoordinate(maxY)};
+  return { coordX: getRandomCoordinate(maxX), coordY: getRandomCoordinate(maxY) };
+}
+
+function getElementFromMap(map, y, x) {
+  if (map[y] && map[y][x]) {
+    return map[y][x];
+  } else {
+    return undefined;
+  }
 }
 
 function getSurroundingTiles(map, coordinates) {
   const { coordX, coordY } = coordinates;
-  const surroundingTiles = [
-    _.get(map, `[${coordY-1}][${coordX-1}]`),
-    _.get(map, `[${coordY-1}][${coordX}]`),
-    _.get(map, `[${coordY-1}][${coordX+1}]`),
-    _.get(map, `[${coordY}][${coordX-1}]`),
-    _.get(map, `[${coordY}][${coordX+1}]`),
-    _.get(map, `[${coordY+1}][${coordX-1}]`),
-    _.get(map, `[${coordY+1}][${coordX}]`),
-    _.get(map, `[${coordY+1}][${coordX+1}]`)
+  const surroundingCoords = [
+    { y: coordY - 1, x: coordX - 1 },
+    { y: coordY - 1, x: coordX },
+    { y: coordY - 1, x: coordX + 1 },
+    { y: coordY, x: coordX - 1 },
+    { y: coordY, x: coordX + 1 },
+    { y: coordY + 1, x: coordX - 1 },
+    { y: coordY + 1, x: coordX },
+    { y: coordY + 1, x: coordX + 1 },
   ];
 
-  return _.filter(surroundingTiles, tile => tile || false);
+  // const surroundingTiles = [
+  //   getElementFromMap(map, (coordY - 1), (coordX - 1)),
+  //   getElementFromMap(map, (coordY - 1), coordX),
+  //   getElementFromMap(map, (coordY - 1), (coordX + 1)),
+  //   getElementFromMap(map, coordY, (coordX - 1)),
+  //   getElementFromMap(map, coordY, (coordX + 1)),
+  //   getElementFromMap(map, (coordY + 1), (coordX - 1)),
+  //   getElementFromMap(map, (coordY + 1), coordX),
+  //   getElementFromMap(map, (coordY + 1), (coordX + 1))
+  // ];
+  const surroundingTiles = []; 
+
+  for (const coords of surroundingCoords) {
+    const element = getElementFromMap(map, coords.y, coords.x);
+    if (element) {
+      surroundingTiles.push(element);
+    }
+  }
+
+  // return _.filter(surroundingTiles, tile => tile || false);
+  return surroundingTiles;
 }
 
 function getSurroundingNonRevealedTiles(map, coordinates) {
@@ -74,7 +102,7 @@ function* getSurroundingTilesToReveal(map, coordinates) {
     }
     const notCheckedElement = _.find(revealQueue, tile => !tile.isCheckedForSurrounding && !tile.amountOfMinesInRange);
     if (notCheckedElement) {
-      coords = {coordX: notCheckedElement.coordX, coordY: notCheckedElement.coordY};
+      coords = { coordX: notCheckedElement.coordX, coordY: notCheckedElement.coordY };
     } else {
       isScanningInProgress = false;
     }
@@ -110,7 +138,7 @@ function* setMinesOnMap() {
   for (let minesOnField = 0; minesOnField < mapSettings.amountOfMines; minesOnField++) {
     let potentialCoordinates;
     do {
-      potentialCoordinates = getRandomCoordinates(mapSettings.width-1, mapSettings.height-1);
+      potentialCoordinates = getRandomCoordinates(mapSettings.width - 1, mapSettings.height - 1);
     }
     while (!isTileAvailableForMine(map, potentialCoordinates))
     map = putMineOnMap(map, potentialCoordinates);
@@ -123,7 +151,7 @@ function setProximityAlertsOnMap(map) {
   const mapWithProximityAlerts = _.cloneDeep(map);
   _.forEach(map, (mapRow) => _.forEach(mapRow, (tile) => {
     const { coordX, coordY } = tile;
-    const surroundingTilesWithMines = getSurroundingTilesWithMines(map, {coordX: coordX, coordY: coordY});
+    const surroundingTilesWithMines = getSurroundingTilesWithMines(map, { coordX: coordX, coordY: coordY });
     if (!mapWithProximityAlerts[coordY][coordX].isTileWithMine) {
       _.set(mapWithProximityAlerts[coordY][coordX], 'amountOfMinesInRange', surroundingTilesWithMines.length);
     }
@@ -137,7 +165,7 @@ function generateMap(width, height) {
   for (let y = 0; y < height; y++) {
     map.push([]);
     for (let x = 0; x < width; x++) {
-      map[y].push({coordX: x, coordY: y});
+      map[y].push({ coordX: x, coordY: y });
     };
   };
   return map;
@@ -179,7 +207,7 @@ function* checkTile(action) {
 function* revealTile(action) {
   const { coordX, coordY } = action.payload;
   const map = yield select(getMapFromState);
-  
+
   if (map[coordY][coordX].amountOfMinesInRange === 0) {
     yield getSurroundingTilesToReveal(map, action.payload);
     yield put(revealTilesInQueue());

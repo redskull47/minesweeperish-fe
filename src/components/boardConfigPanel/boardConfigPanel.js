@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'redux-react-hook';
 import { Collapse, Button, Container, Row, Col } from 'react-bootstrap';
 import { setBoardConfig as setBoardConfigAction } from 'actions/mineBoardActions';
+import Timer from 'components/timer/timer';
 
 const defaultState = {
   boardWidth: undefined,
@@ -120,6 +121,7 @@ export default function BoardConfigPanel() {
                   <li className="mb-3">Use Ctrl + secondary click (RMB) if you're uncertain and you'd like to go back to it later.</li>
                 </ul>
               </div>
+              <Timer />
             </Col>
           </Row>
         </Container>
